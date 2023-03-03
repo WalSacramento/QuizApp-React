@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
+
 import { QuestionAnswer } from '../QuestionAnswer'
+import { Result } from '../Result'
+import { ProgressBar } from '../ProgressBar';
 
 import S from './styles.module.scss'
 
@@ -22,41 +25,69 @@ const QUESTIONS = [
     answers: ['Desenvolvedor', 'Médico', 'Eletricista', 'Jogador de Futebol'],
     correctAnswer: 'Desenvolvedor'
   },
+  {
+    id: 4,
+    question: 'onde moro?',
+    answers: ['Penedo', 'Feliz Deserto', 'Recife', ' Maceió'],
+    correctAnswer: 'Penedo'
+  },
 
 ]
 
 export function Quiz () {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [isTakingQuiz, setIsTakingQuiz] = useState(true)
-  const currentQuestion = QUESTIONS
-  [currentQuestionIndex]
+  const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false)
+  const currentQuestion = QUESTIONS[currentQuestionIndex]
+  const [correctAnswerCount, setCorrectAnswerCount] = useState(0)
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex + 1 < QUESTIONS.length){
-    setCurrentQuestionIndex(currentQuestionIndex + 1)
+    if (currentQuestionNumber < QUESTIONS.length){
+    setCurrentQuestionIndex(currentQuestionNumber)
   } else {
     setIsTakingQuiz(false)
   }
+  setIsCurrentQuestionAnswered(false)
   }
 
   const handleAnswerQuestion = (event, question, userAnswer) => {
+    if (isCurrentQuestionAnswered) {
+      return
+    }
+
     const isCorrectAnswer = question.correctAnswer === userAnswer
 
     const resultClassName = isCorrectAnswer ? S.correct : S.incorrect
 
     event.currentTarget.classList.toggle(resultClassName)
+    
+    if (isCorrectAnswer) {
+      setCorrectAnswerCount(correctAnswerCount + 1)
+    }
+
+    setIsCurrentQuestionAnswered(true)
+  }
+
+  const handleTryAgain = () => {
+    setIsTakingQuiz(true)
+    setCurrentQuestionIndex(0)
+    setCorrectAnswerCount(0)
   }
 
   const quizSize = QUESTIONS.length
-  const navigationButtonText = currentQuestionIndex + 1 === quizSize ? 'Ver Resultado' : 'Próxima Pergunta'
+  const navigationButtonText = currentQuestionIndex + 1 === quizSize ? 'Ver Resultado' : 'Próxima Pergunta';
+  const currentQuestionNumber = currentQuestionIndex + 1
 
   return (
     <div className={S.container}>
       <div className={S.card}>
         {isTakingQuiz ? (
           <div className={S.quiz}>
-            <header>
-              <span>PERGUNTA {currentQuestionIndex + 1}/{quizSize} </span>
+            <ProgressBar 
+            size={quizSize} 
+            currentStep={currentQuestionNumber} />
+            <header className={S.quizHeader}>
+              <span>PERGUNTA {currentQuestionNumber}/{quizSize} </span>
               <p>{currentQuestion.question}</p>
             </header>
     
@@ -77,7 +108,10 @@ export function Quiz () {
             </button>
           </div>
         ) : (
-          <h1>Resultado</h1>
+          <Result 
+          correctAnswersCount={correctAnswerCount}
+          quizSize={quizSize}
+          handleTryAgain={handleTryAgain} />
         )}
       </div>
     </div>
