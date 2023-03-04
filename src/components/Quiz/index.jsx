@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link } from "react-router-dom";
 
 import { QuestionAnswer } from '../QuestionAnswer'
 import { Result } from '../Result'
@@ -27,7 +28,7 @@ const QUESTIONS = [
   },
   {
     id: 4,
-    question: 'onde moro?',
+    question: 'Onde moro?',
     answers: ['Penedo', 'Feliz Deserto', 'Recife', ' Maceió'],
     correctAnswer: 'Penedo'
   },
@@ -79,6 +80,7 @@ export function Quiz () {
   const currentQuestionNumber = currentQuestionIndex + 1
 
   return (
+    
     <div className={S.container}>
       <div className={S.card}>
         {isTakingQuiz ? (
@@ -103,16 +105,26 @@ export function Quiz () {
                 )}
             </ul>
     
-            <button className={S.navigationBtn} onClick={handleNextQuestion}>
-              {navigationButtonText}
-            </button>
+            <div> 
+              <button className={S.navigationBtn} onClick={handleNextQuestion}>
+                {navigationButtonText}
+              </button>
+              
+              <Link to='/'>
+                <button className={S.navigationBtn}>Retornar ao início</button>
+              </Link>
+            </div>
+
           </div>
         ) : (
           <Result 
           correctAnswersCount={correctAnswerCount}
           quizSize={quizSize}
           handleTryAgain={handleTryAgain} />
-        )}
+        )
+        }
+
+        
       </div>
     </div>
   )

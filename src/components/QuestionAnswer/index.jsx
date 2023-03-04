@@ -6,7 +6,6 @@ export function QuestionAnswer ({
   handleAnswerQuestion 
 }) {
   
-
   return (
     <button
       className={S.container}
