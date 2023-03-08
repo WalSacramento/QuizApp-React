@@ -1,94 +1,46 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import { useFormik } from 'formik';
 
 import S from './styles.module.scss'
 
-export function AddQuestionForm ({ setQuestions }) {
-  const initialState = {
-    id: '',
-    question: '',
-    answers: ['', '', '', ''],
-    correctAnswer:'',
-  }
-
-  const [formData, setFormData] = useState(initialState)
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target
-    
-    if (name === 'answers') {
-      const newAnswers = [...formData.answers]
-      const index = Number(event.target.id)
-      newAnswers[index] = value;
-      setFormData({...formData, newAnswers})
-    } else {
-      setFormData({...formData, [name]: value})
+export function AddQuestionForm () {
+  const formik = useFormik({
+    initialValues: {id: '', question: '', answers: '', correctAnswer: ''},
+    onSubmit: values => {
+      console.log(values)
     }
-  }
+  })
 
-  const handleSubmit = (event) => {
-    event.preventDefaut()
-    setQuestions((questions) => [
-      ...questions,
-      {
-        ...formData,
-        id: questions.length + 1,
-      },
-    ])
-    setFormData(initialState)
-  }
 
-  return (
-    <div>
-      <form className={S.addQuestionForm} onSubmit={handleSubmit}>
-      <div className={S.formGroup}>
-        <label htmlFor='question'>Pergunta:</label>
-        <input 
-          type='text'
-          name='question'
-          value={formData.question}
-          onChange={handleInputChange}
-          required 
-          />
-      </div>
-      <div className={S.formGroup}>
-        <label htmlFor='answers'>Respostas:</label>
-        {formData.answers.map((answer, index) => (
-          <input 
-            key={index} 
-            id={index}
-            type='text'
-            name='answers'
-            value={answer}
-            onChange={handleInputChange}
-            required
-            />
-        ))}
-      </div>
-      <div className={S.formGroup}>
-        <label htmlFor='correctAnswer'>Resposta correta:</label>
-        <select
-          name='correctAnswer'
-          value={formData.correctAnswer}
-          onChange={handleInputChange}
-          required >
-            <option value="" disabled hidden>
-            Selecione a resposta correta
-          </option>
-          {formData.answers.map((answer, index) => (
-            <option key={index} value={answer}>
-              {answer}
-            </option>
-          ))}
-          </select>
-      </div>
-      <button type='submit'>Adicionar pergunta</button>
+  return (   
+    <div className={S.container}>
+      <div className={S.card}>
+        <h1>Adicionar pergunta ao quiz!</h1>
 
-    </form>
-      
+        <div>
+          <form onSubmit={formik.handleSubmit}>
+            <label>ID</label>
+            <input type="text" name="id" onChange={formik.handleChange} value={formik.values.id}/>
+
+            <label>Pergunta</label>
+            <input type="text" name="question" onChange={formik.handleChange} value={formik.values.question}/>
+
+            <label>Respostas</label>
+            <input type="text" name="answers" onChange={formik.handleChange} value={formik.values.answers}/>
+            <input type="text" name="answers" onChange={formik.handleChange} value={formik.values.answers}/>
+            <input type="text" name="answers" onChange={formik.handleChange} value={formik.values.answers}/>
+            <input type="text" name="answers" onChange={formik.handleChange} value={formik.values.answers}/>
+
+            <label>Resposta correta</label>
+            <input type="text" name="correctAnswer" onChange={formik.handleChange} value={formik.values.correctAnswer}/>
+
+            <button type="submit">Enviar</button>
+          </form>
+          
+        </div>
+      </div>
     </div>
-    
-    
   )
 
 }
