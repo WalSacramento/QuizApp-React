@@ -17,17 +17,77 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-
 }
 
 button {
-height: 46px;
-background-color: #128cfe;
-border-radius: 8px;
-border: 0;
-color: #fff;
-font-size: 14px;
-padding: 0 20px;
-cursor: pointer;
-margin: 20px;
+  height: 46px;
+  background-color: #128cfe;
+  border-radius: 8px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  padding: 0 20px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.questionInput {
+  margin-top: 40px;
+  max-width: 600px;
+  width: 100%;
+
+  li {
+    list-style: none;
+  }
+}
+
+.questionContainer {
+  display: flex;
+  align-items: center;
+  background-color: #128cfe;
+  height: 46px;
+  width: 40%;
+  border: 0;
+  margin: 8px 0px;
+  border-radius: 8px;
+  color: #fff;
+  font-style: 14px;
+  padding: 0 20px;
+
+  input {
+    margin: 10px;
+    width: 60%;
+    border: 2px solid ;
+    border-radius: 8px;
+    color: #fff;
+  }
+}
+
+.questionContainerAnswers {
+  display: flex;
+  align-items: center;
+  background-color: #128cfe;
+  height: 46px;
+  width: 100%;
+  border: 0;
+  margin: 8px 0px;
+  border-radius: 8px;
+  color: #565577;
+  color: #fff;
+  font-style: 14px;
+  padding: 0 20px;
+
+  input {
+    margin: 10px;
+    margin: 10px;
+    width: 60%;
+    border: 2px solid;
+    
+    border-radius: 8px;
+    color: #fff;
+  }
+}
+
+.buttons {
+  text-align: center;
 }
